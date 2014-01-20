@@ -10,8 +10,10 @@ using namespace std;
 
 typedef char TElemType;
 typedef struct BiTreeNode {
-	TElemType data;
-	struct BiTreeNode *parent, *lChild, *rChild; /* pointer of parent, left/right child */
+	TElemType           data;
+	struct BiTreeNode   *parent; /* pointer of parent */
+	struct BiTreeNode   *lChild; /* pointer of left child */
+	struct BiTreeNode   *rChild; /* pointer of right child */
 }BiTreeNode, *PBiTreeNode;
 
 const int MAX_NODE = 10;
@@ -40,10 +42,15 @@ int main(int argc, char *argv[])
 
 	std::cout<<"The depth of the tree: "<<getBiTreeDepth(*pBiTree)<<std::endl;
 
-	std::cout<<"PreOrder sequence: ";
+	std::cout<<"Pre Order sequence: ";
 	preOrder(pBiTree, visit);
 	std::cout<<std::endl;
-	
+
+
+	std::cout<<"InOrder sequence: ";
+	inOrder(pBiTree, visit);
+	std::cout<<std::endl;
+
 	//delete bi tree
 	deleteBiTree(pBiTree);
 
@@ -153,7 +160,7 @@ int getBiTreeDepth(PBiTreeNode pRoot)
 	return nLeft > nRight ? nLeft + 1 : nRight + 1;
 }
 
-int preOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode pNode))
+int preOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /* pNode */))
 {
 	if(*pTree)
 	{
@@ -173,13 +180,28 @@ int preOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode pNode))
 	}
 }
 
-int inOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode pNode))
+int inOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /* pNode */))
 {
 	//TODO:
-	
+	if(*pTree)
+	{
+		if(inOrder(&(*pTree)->lChild, visit) == OK)
+		{
+			visit(*pTree);
+			if(inOrder(&(*pTree)->rChild, visit) == OK)
+			{
+				return OK;
+			}
+		}
+		return ERROR;
+	}
+	else
+	{
+		return OK;
+	}
 }
 
-int postOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode pNode))
+int postOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /* pNode */))
 {
 	//TODO:
 	
