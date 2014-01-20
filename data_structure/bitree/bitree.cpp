@@ -39,6 +39,10 @@ int main(int argc, char *argv[])
 	createBiTree(pBiTree);
 
 	std::cout<<"The depth of the tree: "<<getBiTreeDepth(*pBiTree)<<std::endl;
+
+	std::cout<<"PreOrder sequence: ";
+	preOrder(pBiTree, visit);
+	std::cout<<std::endl;
 	
 	//delete bi tree
 	deleteBiTree(pBiTree);
@@ -151,17 +155,38 @@ int getBiTreeDepth(PBiTreeNode pRoot)
 
 int preOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode pNode))
 {
-	//TODO:
-	
+	if(*pTree)
+	{
+		visit(*pTree);
+		if(preOrder(&(*pTree)->lChild, visit) == OK)
+		{
+			if(preOrder(&(*pTree)->rChild, visit) == OK)
+			{
+				return OK;
+			}
+		}
+		return ERROR;
+	}
+	else
+	{
+		return OK;
+	}
 }
+
 int inOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode pNode))
 {
 	//TODO:
 	
 }
+
 int postOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode pNode))
 {
 	//TODO:
 	
 }
 
+void visit(const PBiTreeNode pNode)
+{
+	//TODO:
+	std::cout<<pNode->data<<" ";
+}
