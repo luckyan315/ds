@@ -24,9 +24,18 @@ int create(PBiTreeNode* pTree);
 int deleteBiTree(PBiTreeNode* pTree);
 int getBiTreeDepth(const PBiTreeNode pRoot);
 
+
+/* impls of non-recursive traverse bitree */
 int preOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /*pNode*/));
 int inOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /*pNode*/));
 int postOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /*pNode*/));
+
+
+/* impls of recursive traverse bitree */
+int preOrder_recursive(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /*pNode*/));
+int inOrder_recursive(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /*pNode*/));
+int postOrder_recursive(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /*pNode*/));
+
 
 void visit(const PBiTreeNode pNode);
 
@@ -43,12 +52,16 @@ int main(int argc, char *argv[])
 	std::cout<<"The depth of the tree: "<<getBiTreeDepth(*pBiTree)<<std::endl;
 
 	std::cout<<"Pre Order sequence: ";
-	preOrder(pBiTree, visit);
+	preOrder_recursive(pBiTree, visit);
 	std::cout<<std::endl;
 
 
 	std::cout<<"InOrder sequence: ";
-	inOrder(pBiTree, visit);
+	inOrder_recursive(pBiTree, visit);
+	std::cout<<std::endl;
+
+	std::cout<<"Post Order sequence: ";
+	postOrder_recursive(pBiTree, visit);
 	std::cout<<std::endl;
 
 	//delete bi tree
@@ -160,14 +173,14 @@ int getBiTreeDepth(PBiTreeNode pRoot)
 	return nLeft > nRight ? nLeft + 1 : nRight + 1;
 }
 
-int preOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /* pNode */))
+int preOrder_recursive(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /* pNode */))
 {
 	if(*pTree)
 	{
 		visit(*pTree);
-		if(preOrder(&(*pTree)->lChild, visit) == OK)
+		if(preOrder_recursive(&(*pTree)->lChild, visit) == OK)
 		{
-			if(preOrder(&(*pTree)->rChild, visit) == OK)
+			if(preOrder_recursive(&(*pTree)->rChild, visit) == OK)
 			{
 				return OK;
 			}
@@ -180,15 +193,14 @@ int preOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /* pNode
 	}
 }
 
-int inOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /* pNode */))
+int inOrder_recursive(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /* pNode */))
 {
-	//TODO:
 	if(*pTree)
 	{
-		if(inOrder(&(*pTree)->lChild, visit) == OK)
+		if(inOrder_recursive(&(*pTree)->lChild, visit) == OK)
 		{
 			visit(*pTree);
-			if(inOrder(&(*pTree)->rChild, visit) == OK)
+			if(inOrder_recursive(&(*pTree)->rChild, visit) == OK)
 			{
 				return OK;
 			}
@@ -201,11 +213,42 @@ int inOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /* pNode 
 	}
 }
 
-int postOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /* pNode */))
+int postOrder_recursive(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /* pNode */))
+{
+	if(*pTree)
+	{
+		if(postOrder_recursive(&(*pTree)->lChild, visit) == OK)
+		{
+			if(postOrder_recursive(&(*pTree)->rChild, visit) == OK)
+			{
+				visit(*pTree);
+				return OK;
+			}
+		}
+		return ERROR;
+	}
+	else
+	{
+		return OK;
+	}
+}
+
+int preOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /*pNode*/))
 {
 	//TODO:
 	
 }
+int inOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /*pNode*/))
+{
+	//TODO:
+	
+}
+int postOrder(const PBiTreeNode* pTree, void (* visit)(const PBiTreeNode /*pNode*/))
+{
+	//TODO:
+	
+}
+
 
 void visit(const PBiTreeNode pNode)
 {
