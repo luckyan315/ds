@@ -134,8 +134,6 @@ bool huffmanCoding(HuffmanTree* pHT, HuffmanCode * pHC, const int * arrW, const 
 		(*pHT)[i].weight = (*pHT)[s1].weight + (*pHT)[s2].weight;
 	}
 
-	//TODO: huffman encoding...
-	
 	for (int i = 0; i < n; ++i)
 	{
 		int iParent = (*pHT)[i].parent;
