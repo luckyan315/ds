@@ -12,9 +12,20 @@ struct TreeNode {
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
+// accept
+// 12ms, beats 73.28%
+// 21.7MB, beats 100.00%
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if(root == nullptr) return 0;
+        return 1 + std::max(maxDepth(root->left), maxDepth(root->right));
+    }
+};
+
 // 8ms, beats 92.80%
 // 19.4MB, beats 29.21%
-class Solution {
+class Solution1 {
 public:
     int maxDepth(TreeNode* root) {
         if(root == nullptr) return 0;

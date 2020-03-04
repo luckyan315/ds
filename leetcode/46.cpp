@@ -2,11 +2,47 @@
 #include <vector>
 #include <list>
 #include <iterator>
+#include <algorithm>
 
 using namespace std;
 
-
+// accept
+// 16ms, beats 32.34%
+// 10.7MB, beats 7.95%
 class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        if(nums.size() == 0) return vector<vector<int>>();
+        vector<vector<int>> res;
+
+        vector<int> path;
+        permuteNext(res, nums, path);
+        return res;
+    }
+
+    void permuteNext(vector<vector<int>>& res, vector<int>& nums, vector<int>& path) {
+        if(nums.size() == 0) return;
+
+        if(nums.size() == 1) {
+            path.push_back(nums.back());
+            res.push_back(path);
+            return;
+        }
+
+
+
+        for (int i = 0; i < nums.size(); ++i) {
+            path.push_back(nums[i]);
+            vector<int> nextpath(path.begin(), path.end());
+            vector<int> nextnums(nums.begin(), nums.end());
+            nextnums.erase(nextnums.begin() + i);
+            permuteNext(res, nextnums, nextpath);
+            path.pop_back();
+        }
+    }
+};
+
+class Solution3 {
 public:
     vector<vector<int>> permute(vector<int>& nums) {
         vector<vector<int>> ans;
