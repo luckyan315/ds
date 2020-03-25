@@ -9,7 +9,7 @@ using namespace std;
 // accept
 // 76ms, beats 14.84%
 // 8.8MB, beats 8.49%
-class Solution {
+class Solution3 {
 public:
     int lengthOfLIS(vector<int>& nums) {
         if (nums.size() == 0) return 0;
