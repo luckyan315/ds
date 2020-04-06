@@ -4,7 +4,65 @@
 
 using namespace std;
 
+// accept
+// 4ms, beats 85.86%
+// 6.4MB, beats 100.00%
 class Solution {
+public:
+    int myAtoi(string str) {
+        if(str.length() == 0) return 0;
+        int i = 0;
+        while (str[i] == ' ') {
+            i++;
+        };
+
+        // '+' -> 1, '-' -> 0
+        int flag = 0;
+
+        if(i < str.length() && (str[i] == '+' || str[i] == '-')) {
+            flag = str[i] == '-' ? -1 : 1;
+            i++;
+        }
+        if(i >= str.length() || str[i] < '0' || str[i] > '9') return 0;
+
+        string num = "";
+        while(i < str.length() && str[i] >= '0' && str[i] <= '9') {
+            num += str[i];
+            i++;
+        }
+
+        long long ans = toNum(num, flag);
+        if(ans >= INT_MAX || ans <= INT_MIN) {
+            return flag == -1 ? INT_MIN: INT_MAX;
+        }
+
+        return ans;
+    }
+
+    long long toNum(string str, int flag) {
+        long long res = 0;
+        int k = 0;
+        while (str[k] == '0') {
+            k++;
+        }
+        str = str.substr(k);
+
+        if(str.length() > 10) {
+            return flag == -1 ? INT_MIN : INT_MAX;
+        }
+
+        for (int i = str.length() - 1; i >= 0; --i) {
+            res += (str[str.length() - 1 - i] - '0') * pow(10, i);
+        }
+        if(flag == -1) res *= -1;
+        return res;
+    }
+};
+
+// accept
+// 4ms,
+// 8.9MB,
+class Solution2 {
 public:
     int myAtoi(string str) {
         if (str.length() == 0) {
